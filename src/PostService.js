@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const url = 'api/posts/';
+const url = process.env.VUE_APP_ROOT_API + 'api/posts/';
 
 class PostService {
     // get posts
