@@ -1,17 +1,17 @@
 import axios from 'axios';
 
-const url = process.env.VUE_APP_ROOT_API + 'api/posts/';
+const url = process.env.VUE_APP_ROOT_API + 'entries/';
 
-class PostService {
-    // get posts
-    static getPosts() {
+class EntryService {
+    // get entries
+    static getEntries() {
         return new Promise((resolve, reject) => {
            axios.get(url).then((res) => {
                const data = res.data;
                resolve(
-                   data.map(post => ({
-                       ...post,
-                       createdAt: new Date(post.createdAt)
+                   data.map(entry => ({
+                       ...entry,
+                       createdAt: new Date(entry.createdAt)
                    }))
                );
            })
@@ -21,17 +21,17 @@ class PostService {
         })
     }
 
-    // create post
-    static insertPost(text) {
+    // create entry
+    static insertEntry(text) {
         return axios.post(url, {
             text
         });
     }
 
-    // delete post
-    static deletePost(id) {
+    // delete entry
+    static deleteEntry(id) {
         return axios.delete(`${url}${id}`);
     }
 }
 
-export default PostService;
+export default EntryService;

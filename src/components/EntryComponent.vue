@@ -1,56 +1,56 @@
 <template>
   <div class="container">
-    <h1>Latest Posts</h1>
-    <div class="create-post">
-      <label for="create-post">Say Something...</label>
-      <input type="text" id="create-post" v-model="text" placeholder="Create a post">
-      <button v-on:click="createPost">Post!</button>
+    <h1>Latest Entries</h1>
+    <div class="create-entry">
+      <label for="create-entry">Say Something...</label>
+      <input type="text" id="create-entry" v-model="text" placeholder="Create an an entry">
+      <button v-on:click="createEntry">Post Entry!</button>
     </div>
     <hr>
     <p class="error" v-if="error"> {{error}} </p>
-    <div class="posts-container">
-      <div class="post"
-        v-for="(post, index) in posts" 
-        v-bind:item="post"
+    <div class="entries-container">
+      <div class="entry"
+        v-for="(entry, index) in entries" 
+        v-bind:item="entry"
         v-bind:index="index"
-        v-bind:key="post._id"
-        v-on:dblclick="deletePost(post._id)"
+        v-bind:key="entry._id"
+        v-on:dblclick="deleteEntry(entry._id)"
       >
-        {{ `${post.createdAt.getDate()} / ${post.createdAt.getMonth()} /
-        ${post.createdAt.getFullYear()}` }}
-      <p class="text">{{ post.text }}</p>
+        {{ `${entry.createdAt.getDate()} / ${entry.createdAt.getMonth()} /
+        ${entry.createdAt.getFullYear()}` }}
+      <p class="text">{{ entry.text }}</p>
       </div>
     </div>
   </div>
 </template>
 
 <script>
-import PostService from '../PostService'
+import EntryService from '../EntryService'
 
 export default {
-  name: 'PostComponent',
+  name: 'EntryComponent',
   data() {
     return {
-      posts: [],
+      entries: [],
       error: '',
       text: ''
     }
   },
   async created() {
     try{
-      this.posts = await PostService.getPosts();
+      this.entries = await EntryService.getEntries();
     } catch (err) {
       this.error = err.message;
     }
   },
   methods: {
-    async createPost() {
-      await PostService.insertPost(this.text)
-      this.posts = await PostService.getPosts();
+    async createEntry() {
+      await EntryService.insertEntry(this.text)
+      this.entries = await EntryService.getEntries();
     },
-    async deletePost(id) {
-      await PostService.deletePost(id)
-      this.posts = await PostService.getPosts();
+    async deleteEntry(id) {
+      await EntryService.deleteEntry(id)
+      this.entries = await EntryService.getEntries();
     }
   }
 }
@@ -70,7 +70,7 @@ p.error {
   margin-bottom: 15px;
 }
 
-div.post {
+div.entry {
   position: relative;
   border: 1px solid #5bd658;
   background-color:  #bcffb8;
